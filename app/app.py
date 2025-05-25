@@ -1,10 +1,15 @@
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
-import os
+import os, sys
 import uuid
 from datetime import datetime, timezone
 import csv
 import zipfile
+
+
+root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+if root not in sys.path:
+    sys.path.insert(0, root)
 
 report_data = []
 
@@ -95,6 +100,7 @@ def zip_reports(zip_filename="raport_mongodb.zip"):
 if __name__ == "__main__":
     print("🔄 Start testu MongoDB...")
     mongo_uri = os.getenv("MONGO_URI")
+    debug_mode = os.getenv("DEBUG")
     if not mongo_uri:
         log_result("ENV", "FAIL", "Brak zmiennej środowiskowej MONGO_URI")
         exit(1)
